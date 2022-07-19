@@ -1,19 +1,19 @@
 import asyncio
 
 import strawberry
-
+from strawberry.types import Info
 
 @strawberry.type
 class Query:
     @strawberry.field
-    def hello() -> str:
+    def hello(self) -> str:
         return "world"
 
 
 @strawberry.type
 class Mutation:
     @strawberry.field
-    async def send_message(self, info, message: str) -> bool:
+    async def send_message(self, info: Info, message: str) -> bool:
         print("sending on_message")
         print(id(info.context.broadcast))
         await info.context.broadcast.publish(channel="chatroom", message=message)
@@ -24,7 +24,7 @@ class Mutation:
 @strawberry.type
 class Subscription:
     @strawberry.subscription
-    async def on_message(self, info) -> str:
+    async def on_message(self, info: Info) -> str:
         print("starting on_message")
         print(id(info.context.broadcast))
 
