@@ -1,2 +1,2 @@
 run:
-	poetry run uvicorn demo.asgi:application --reload --debug
+	poetry run daphne demo.asgi:application
